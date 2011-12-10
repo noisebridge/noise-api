@@ -13,6 +13,11 @@ __contributors__ = None
 __license__ = "GPL v3"
 
 from bottle import route, run 
+import os
+import subprocess
+
+def check_output(inps):
+    return subprocess.Popen(inps, stdout=subprocess.PIPE, shell=True).communicate()[0]
 
 @route('/hello/:name')
 def index(name='World'):
@@ -21,7 +26,8 @@ def index(name='World'):
 
 @route('/gate/open')
 def index():
-    return '<b>You opened the gate!</b>'
+    gate_message = check_output("/bin/echo -n 'OPEN!' | /usr/bin/socat stdio udp4:minotaur.noise:30012")
+    return "<b>%s</b>" % gate_message
 
 
 def main(args):
