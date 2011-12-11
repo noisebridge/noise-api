@@ -41,7 +41,7 @@ def index(name='World'):
 @post('/gate/open')
 def index():
     gate_message = open_gate()
-    return "<b>%s</b>" % gate_message
+    return { 'success' : ('Acknowledged' in gate_message), 'message' : gate_message }
 
 
 def main(args):
