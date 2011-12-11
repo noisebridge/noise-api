@@ -12,10 +12,11 @@ __copyright__ = "Noisebridge"
 __contributors__ = None
 __license__ = "GPL v3"
 
-from bottle import route, post, run
+from bottle import Bottle, run
 from bottle import debug
 
 DEBUG = True
+api_app = Bottle()
 
 import socket
 
@@ -36,12 +37,12 @@ def open_gate():
         buf = "Failed: No response"
     return buf
 
-@route('/hello/:name')
+@api_app.route('/hello/:name')
 def index(name='World'):
     return '<b>Hello %s!</b>' %name
 
 
-@post('/gate/open')
+@api_app.post('/gate/open')
 def index():
     gate_message = open_gate()
     return { 'success' : ('Acknowledged' in gate_message), 'message' : gate_message }
@@ -51,7 +52,7 @@ def main(args):
     if DEBUG:
         print "In debug mode"
         debug(True)
-    run(reloader=DEBUG,  host='0.0.0.0', port=8080)
+    run(api_app,reloader=DEBUG,  host='0.0.0.0', port=8080)
 
 
 import sys
