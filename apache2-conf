@@ -1,0 +1,12 @@
+<VirtualHost *:80>
+	ServerName api.noisebridge.net
+	WSGIDaemonProcess noise-api user=www-data group=www-data processes=1 threads=5
+	WSGIScriptAlias /api /var/local/noise_api/api.wsgi
+
+	<Directory /var/local/noise_api/>
+		WSGIProcessGroup noise-api
+		WSGIApplicationGroup %{GLOBAL}
+		Order deny,allow
+		Allow from all
+	</Directory>
+</VirtualHost>
