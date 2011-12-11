@@ -13,11 +13,24 @@ __contributors__ = None
 __license__ = "GPL v3"
 
 from bottle import route, run 
-import os
-import subprocess
 
-def check_output(inps):
-    return subprocess.Popen(inps, stdout=subprocess.PIPE, shell=True).communicate()[0]
+import socket
+def open_gate():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    port = 30012
+    try:
+        s.connect(('minotaur.noise', port))
+    except socket.error:
+        return "Failed: Could not connect"
+    data = "OPEN!"
+    s.sendall(data)
+    s.shutdown(1)
+    s.settimeout(5)
+    try:
+        buf = s.recv(2048)
+    except socket.timeout:
+        buf = "Failed: No response"
+    return buf
 
 @route('/hello/:name')
 def index(name='World'):
@@ -26,7 +39,7 @@ def index(name='World'):
 
 @route('/gate/open')
 def index():
-    gate_message = check_output("/bin/echo -n 'OPEN!' | /usr/bin/socat stdio udp4:minotaur.noise:30012")
+    gate_message = open_gate()
     return "<b>%s</b>" % gate_message
 
 
