@@ -13,6 +13,9 @@ __contributors__ = None
 __license__ = "GPL v3"
 
 from bottle import route, post, run
+from bottle import debug
+
+DEBUG = True
 
 import socket
 
@@ -45,7 +48,10 @@ def index():
 
 
 def main(args):
-    run(host='0.0.0.0', port=8080)
+    if DEBUG:
+        print "In debug mode"
+        debug(True)
+    run(reloader=DEBUG,  host='0.0.0.0', port=8080)
 
 
 import sys
@@ -77,6 +83,11 @@ class Main():
 
     def default_main(self, args):
         print sys.argv[0], " called with ", args
+
+    def handle_debug(self, v):
+        global DEBUG
+        print "Debug mode on"
+        DEBUG = True
 
     def handle_help(self, v):
         """ Shows this message """
