@@ -12,9 +12,10 @@ __copyright__ = "Noisebridge"
 __contributors__ = None
 __license__ = "GPL v3"
 
-from bottle import route, run 
+from bottle import route, post, run
 
 import socket
+
 def open_gate():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     port = 30012
@@ -37,7 +38,7 @@ def index(name='World'):
     return '<b>Hello %s!</b>' %name
 
 
-@route('/gate/open')
+@post('/gate/open')
 def index():
     gate_message = open_gate()
     return "<b>%s</b>" % gate_message
