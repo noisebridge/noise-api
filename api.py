@@ -37,6 +37,27 @@ def open_gate():
         buf = "Failed: No response"
     return buf
 
+def is_gate_ringing():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    port = 30012
+    try:
+        s.connect(('minotaur.noise', port))
+    except socket.error:
+        return "Failed: Could not connect"
+    data = "Sup?"
+    s.sendall(data)
+    s.shutdown(1)
+    s.settimeout(5)
+    try:
+        buf = s.recv(2048)
+    except socket.timeout:
+        buf = "Failed: No response"
+
+    if (buf == "RING!\n"):
+        return True
+    else:
+        return False
+
 @api_app.route('/hello/:name')
 def index(name='World'):
     return '<b>Hello %s!</b>' %name
@@ -46,6 +67,10 @@ def index(name='World'):
 def index():
     gate_message = open_gate()
     return { 'success' : ('Acknowledged' in gate_message), 'message' : gate_message }
+
+@api_app.get('/gate/ringing')
+def index():
+    return { 'ringing' : is_gate_ringing() }
 
 
 def main(args):
