@@ -33,9 +33,10 @@ Gets interesting stats about the gate. Currently:
     }
 ```
 
-Where 'ringing' is true if the gate buzzer is ringing at that precise moment,
-or within [RINGER_RESET_TIME](https://github.com/jof/gateman/blob/master/gateman.c#L17) seconds 
-(default is 15 seconds).
+Where 'ringing' is true if the gate buzzer is ringing at that moment, or in the
+last few seconds, as users may push the button for a very short time. The
+amount of time that this state is cached is totally up to the Gateman daemon
+that runs to interact with the gate hardware.
 
 ### POST /gate/open
 
@@ -47,8 +48,6 @@ Opens the door. Returns a JSON dictionary:
     message: string
     }
 ```
-
-Where success is true if the door was buzzed open.
 
 Adding to the API
 -----------------
