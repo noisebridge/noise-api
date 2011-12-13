@@ -46,7 +46,10 @@ Gets interesting stats about the gate. Currently:
     }
 ```
 
-Where 'ringing' is true if the gate buzzer is ringing at that precise moment.
+Where 'ringing' is true if the gate buzzer is ringing at that moment, or in the
+last few seconds, as users may push the button for a very short time. The
+amount of time that this state is cached is totally up to the Gateman daemon
+that runs to interact with the gate hardware.
 
 Adding to the API
 -----------------
