@@ -20,14 +20,14 @@ api_app = Bottle()
 
 import socket
 
-def open_gate():
+def chat_with_gate(message):
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     port = 30012
     try:
         s.connect(('minotaur.noise', port))
     except socket.error:
         return "Failed: Could not connect"
-    data = "OPEN!"
+    data = message
     s.sendall(data)
     s.shutdown(1)
     s.settimeout(5)
@@ -37,23 +37,12 @@ def open_gate():
         buf = "Failed: No response"
     return buf
 
-def is_gate_ringing():
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    port = 30012
-    try:
-        s.connect(('minotaur.noise', port))
-    except socket.error:
-        return "Failed: Could not connect"
-    data = "Sup?"
-    s.sendall(data)
-    s.shutdown(1)
-    s.settimeout(5)
-    try:
-        buf = s.recv(2048)
-    except socket.timeout:
-        buf = "Failed: No response"
+def open_gate():
+    return chat_with_gate("OPEN!")
 
-    if (buf == "RING!\n"):
+def is_gate_ringing():
+    reply = chat_with_gate("Sup?")
+    if (reply == "RING!\n"):
         return True
     else:
         return False
