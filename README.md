@@ -23,6 +23,20 @@ For instance, to open the door using curl:
 
 Returns 'hello [name]'
 
+### GET /gate/
+
+Gets interesting stats about the gate. Currently:
+
+```json
+    {
+    ringing: boolean
+    }
+```
+
+Where 'ringing' is true if the gate buzzer is ringing at that precise moment,
+or within [RINGER_RESET_TIME](https://github.com/jof/gateman/blob/master/gateman.c#L17) seconds 
+(default is 15 seconds).
+
 ### POST /gate/open
 
 Opens the door. Returns a JSON dictionary:
@@ -35,18 +49,6 @@ Opens the door. Returns a JSON dictionary:
 ```
 
 Where success is true if the door was buzzed open.
-
-### GET /gate/
-
-Gets interesting stats about the gate. Currently:
-
-```json
-    {
-    ringing: boolean
-    }
-```
-
-Where 'ringing' is true if the gate buzzer is ringing at that precise moment.
 
 Adding to the API
 -----------------
