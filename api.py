@@ -57,7 +57,7 @@ def index():
     gate_message = open_gate()
     return { 'success' : ('Acknowledged' in gate_message), 'message' : gate_message }
 
-@api_app.get('/gate/ringing')
+@api_app.get('/gate/')
 def index():
     return { 'ringing' : is_gate_ringing() }
 
