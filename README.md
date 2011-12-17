@@ -84,5 +84,5 @@ When you're ready to deploy, commit the code, then pull it out to the runningver
 ```bash
     cd /var/local/noise_api/
     sudo git pull [your cloned directory goes here]
-    sudo /etc/init.d/apache2 restart
+    sudo make install
 ```
