@@ -48,17 +48,17 @@ def is_gate_ringing():
         return False
 
 @api_app.route('/hello/:name')
-def index(name='World'):
+def hello(name='World'):
     return '<b>Hello %s!</b>' %name
 
 
 @api_app.post('/gate/open')
-def index():
+def gate_open():
     gate_message = open_gate()
     return { 'success' : ('Acknowledged' in gate_message), 'message' : gate_message }
 
 @api_app.get('/gate/')
-def index():
+def gate_status():
     return { 'ringing' : is_gate_ringing() }
 
 
