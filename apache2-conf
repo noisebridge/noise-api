@@ -13,6 +13,6 @@
 		Allow from 127.0.0.1
 	</Directory>
     <Location /spaceapi/>
-    All from all
+    Allow from all
     </Location>
 </VirtualHost>
