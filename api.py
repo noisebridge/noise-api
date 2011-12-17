@@ -15,7 +15,7 @@ __license__ = "GPL v3"
 from bottle import Bottle, run
 from bottle import debug
 
-DEBUG = True
+DEBUG = False
 api_app = Bottle()
 
 import socket
@@ -64,7 +64,7 @@ def index():
 
 def main(args):
     if DEBUG:
-        print "In debug mode"
+        print >>sys.stderr,  "In debug mode"
         debug(True)
     run(api_app,reloader=DEBUG,  host='0.0.0.0', port=8080)
 
@@ -101,7 +101,6 @@ class Main():
 
     def handle_debug(self, v):
         global DEBUG
-        print "Debug mode on"
         DEBUG = True
 
     def handle_help(self, v):
