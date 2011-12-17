@@ -23,6 +23,10 @@ For instance, to open the door using curl:
 
 Returns 'hello [name]'
 
+### GET /spaceapi/
+
+Returns Noisebridge status, formatted as per http://hackerspaces.nl/spaceapi/
+
 ### GET /gate/
 
 Gets interesting stats about the gate. Currently:

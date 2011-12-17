@@ -12,4 +12,7 @@
 		Allow from 75.101.62.89
 		Allow from 127.0.0.1
 	</Directory>
+    <Location /spaceapi/>
+    All from all
+    </Location>
 </VirtualHost>

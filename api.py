@@ -19,6 +19,7 @@ DEBUG = False
 api_app = Bottle()
 
 import socket
+import time
 
 def chat_with_gate(message):
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -61,6 +62,28 @@ def gate_open():
 def gate_status():
     return { 'ringing' : is_gate_ringing() }
 
+@api_app.route("/spaceapi/")
+def spaceapi():
+    return {  'api' : '0.11' 
+            , 'space' : 'Noisebridge'
+            , 'logo' : 'https://www.noisebridge.net/NB-logo-red-black-med.png'
+            , 'icon' : 
+            {   'open' : 'https://www.noisebridge.net/images/9/9b/Nb-open-100x100.png'
+                , 'closed' : 'https://www.noisebridge.net/images/9/9b/Nb-open-100x100.png' }
+            , 'url' : 'https://www.noisebridge.net/'
+            , 'address' : '2169 Mission Street, San Francisco, CA 94110-1219, United States of America'
+            , 'contact' : 
+            {
+                'irc' : 'irc://irc.freenode.net/#noisebridge'
+                , 'twitter' : '@noisebridge'
+                , 'ml' : 'noisebridge-discuss@noisebridge.net'
+                , 'email' : 'secretary@noisebridge.net' }
+            , "lat": 37.762376
+            , "lon": -122.419217
+            , 'open' : True
+            , 'status' : 'open for public -- just ring the buzzer'
+            , 'lastchange' : time.time() - 1222819200
+            }
 
 def main(args):
     if DEBUG:
