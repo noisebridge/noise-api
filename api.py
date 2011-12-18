@@ -12,8 +12,9 @@ __copyright__ = "Noisebridge"
 __contributors__ = None
 __license__ = "GPL v3"
 
-from bottle import Bottle, run
+from bottle import Bottle, run, request
 from bottle import debug
+from bottle import HTTPError
 
 DEBUG = False
 api_app = Bottle()
@@ -39,7 +40,8 @@ def chat_with_gate(message):
     return buf
 
 def open_gate():
-    return chat_with_gate("OPEN!")
+    gate_message = chat_with_gate("OPEN!")
+    return (gate_message, ('Acknowledged' in gate_message))
 
 def is_gate_ringing():
     reply = chat_with_gate("Sup?")
@@ -52,11 +54,17 @@ def is_gate_ringing():
 def hello(name='World'):
     return '<b>Hello %s!</b>' %name
 
-
-@api_app.post('/gate/open')
+@api_app.post('/gate/')
 def gate_open():
-    gate_message = open_gate()
-    return { 'success' : ('Acknowledged' in gate_message), 'message' : gate_message }
+    status = gate_status()
+    changes_to_status= {}
+    if 'open' in request.forms and request.forms.open:
+        gate_message, success = open_gate()
+        changes_to_status = { 'open' : success , 'message' : gate_message }
+        if not success:
+            raise HTTPError(output = gate_message)
+    status.update(changes_to_status)
+    return status
 
 @api_app.get('/gate/')
 def gate_status():
