@@ -1,7 +1,10 @@
 API for Noisebridge
 ===================
 
-This is a very simple Python WSGI App that provides what should hopefully be a stable API for fun things in the Noisebridge space.
+This is a very simple Python WSGI App that provides a RESTful API for fun things in the Noisebridge space.
+
+In the Noisebridge tradition, it's not stable! It will, however try to break in
+as noisy a way as possible if things change.
 
 Using the API
 -------------
@@ -42,13 +45,14 @@ last few seconds, as users may push the button for a very short time. The
 amount of time that this state is cached is totally up to the Gateman daemon
 that runs to interact with the gate hardware.
 
-### POST /gate/open
+### POST /gate/ 
 
-Opens the door. Returns a JSON dictionary:
+With open=True, opens the door. Returns a 300 error if unsuccessful, and
+the following additions to the /gate/ stats if successful:
 
 ```json
     {
-    success: boolean,
+    open : True
     message: string
     }
 ```
