@@ -1,0 +1,45 @@
+This work was packaged for Debian by:
+
+    Jonathan Lassoff <jof@thejof.com> on Sun, 18 Dec 2011 23:38:25 -0800
+
+It was downloaded from:
+
+    <https://github.com/noisebridge/noise-api>
+
+Upstream Author(s):
+
+    Danny O'Brien <http://www.spesh.com/danny/>
+    Liz Henry <http://bookmaniac.org/>
+    Jonathan Lassoff jof@thejof.com
+
+Copyright:
+
+    Still need to figure out what to put here.
+
+License:
+
+    This program is free software; you can redistribute it and/or modify it
+    under the terms of the "Artistic License" which comes with Debian.
+
+    THIS PACKAGE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR IMPLIED
+    WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES
+    OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+
+On Debian systems, the complete text of the Artistic License
+can be found in "/usr/share/common-licenses/Artistic".
+
+The Debian packaging is:
+
+    Copyright (C) 2011 Jonathan Lassoff <jof@thejof.com>
+
+# Please chose a license for your packaging work. If the program you package
+# uses a mainstream license, using the same license is the safest choice.
+# Please avoid to pick license terms that are more restrictive than the
+# packaged work, as it may make Debian's contributions unacceptable upstream.
+# If you just want it to be GPL version 3, leave the following lines in.
+
+and is licensed under the GPL version 3,
+see "/usr/share/common-licenses/GPL-3".
+
+# Please also look if there are files or directories which have a
+# different copyright/license attached and list them here.

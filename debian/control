@@ -1,0 +1,17 @@
+Source: noisebridge-api
+Section: unknown
+Priority: extra
+Maintainer: Jonathan Lassoff <rack@lists.noisebridge.net>
+Build-Depends: cdbs, debhelper (>= 7.0.50~)
+Standards-Version: 3.8.4
+Homepage: https://github.com/noisebridge/noise-api
+Vcs-Git: git://github.com/noisebridge/noise-api.git
+Vcs-Browser: https://github.com/noisebridge/noise-api
+
+Package: noisebridge-api
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: A RESTful HTTP API for the Noisebridge Hackersapce.
+ A RESTful API implementation for interacting with various parts of the
+ Noisebridge Hackerspace in San Francisco, CA.
+ Hack the planet.
