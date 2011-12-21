@@ -12,6 +12,9 @@
 		Allow from 75.101.62.89
 		Allow from 75.101.62.88
 		Allow from 127.0.0.1
+
+        Header add Access-Control-Allow-Origin *
+        Header add Cache-Control no-cache
 	</Directory>
     <Location /spaceapi/>
     Allow from all
