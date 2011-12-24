@@ -3,4 +3,5 @@
 include /usr/share/cdbs/1/rules/debhelper.mk
 include /usr/share/cdbs/1/class/makefile.mk
 
-# Add here any variable or target overrides you need.
+install::
+	chown -R www-data:www-data $(DEB_DESTDIR)/usr/lib/noisebridge-api

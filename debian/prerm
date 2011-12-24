@@ -19,6 +19,10 @@ set -e
 
 case "$1" in
     remove|upgrade|deconfigure)
+      echo "Disabling apache site."
+      /usr/sbin/a2dissite noisebridge-api
+      echo "Gracefulling apache"
+      /usr/sbin/apache2ctl graceful
     ;;
 
     failed-upgrade)
