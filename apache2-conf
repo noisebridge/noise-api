@@ -1,22 +1,23 @@
 <VirtualHost *:80>
 	ServerName api.noisebridge.net
 	WSGIDaemonProcess noise-api user=www-data group=www-data processes=1 threads=5
-	WSGIScriptAlias / /var/local/noise_api/api.wsgi
+	WSGIScriptAlias / /usr/lib/noisebridge-api/api.wsgi
 
-	<Directory /var/local/noise_api/>
+	<Directory /usr/lib/noisebridge-api>
 		WSGIProcessGroup noise-api
 		WSGIApplicationGroup %{GLOBAL}
 		Order deny,allow
 		Deny from all
+    # These are some Noisebridge-specific IPs.
 		Allow from 172.30.0 172.30.1 172.30.2 172.30.3 172.30.4
 		Allow from 75.101.62.89
 		Allow from 75.101.62.88
 		Allow from 127.0.0.1
 
-        Header add Access-Control-Allow-Origin *
-        Header add Cache-Control no-cache
+    Header add Access-Control-Allow-Origin *
+    Header add Cache-Control no-cache
 	</Directory>
-    <Location /spaceapi/>
+  <Location /spaceapi/>
     Allow from all
-    </Location>
+  </Location>
 </VirtualHost>
