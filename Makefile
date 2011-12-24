@@ -1,4 +1,4 @@
-.PHONY: all install enable clean
+.PHONY: all install enable clean package
 
 all:
 
@@ -11,3 +11,6 @@ enable:
 	a2ensite noisebridge-api
 	a2enmod wsgi
 	apache2ctl restart
+
+package:
+	dpkg-buildpackage -rfakeroot
