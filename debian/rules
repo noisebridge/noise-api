@@ -3,5 +3,11 @@
 include /usr/share/cdbs/1/rules/debhelper.mk
 include /usr/share/cdbs/1/class/makefile.mk
 
+DEB_MAKE_BUILD_TARGET = all
+# FIXME: Flying by the seat of our pants.
+#        One day, this code might have some tests around it.
+DEB_MAKE_CHECK_TARGET = 
+DEB_MAKE_INSTALL_TARGET = install DESTDIR="$(DEB_DESTDIR)"
+
 install::
 	chown -R www-data:www-data $(DEB_DESTDIR)/usr/lib/noisebridge-api
