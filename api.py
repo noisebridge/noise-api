@@ -79,8 +79,6 @@ def gate_open():
     if 'open' in request.forms and request.forms.open:
         gate_message, success = open_gate()
         changes_to_status = { 'open' : success , 'message' : gate_message }
-        if success:
-            say_out_loud("Gate has been opened")
         if not success:
             raise HTTPError(output = gate_message)
     status.update(changes_to_status)
