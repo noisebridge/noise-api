@@ -19,7 +19,7 @@ http://api.noisebridge.net/[call]
 For instance, to open the door using curl:
 
 ```bash
-    curl -X POST http://api.noisebridge.net/gate/open
+    curl -X POST -d open=True http://api.noisebridge.net/gate/
 ```
 
 ### GET /hello/[name]
