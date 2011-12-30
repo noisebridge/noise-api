@@ -21,6 +21,7 @@ api_app = Bottle()
 
 import socket
 import time
+import re
 
 def chat_with_gate(message):
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -38,6 +39,23 @@ def chat_with_gate(message):
     except socket.timeout:
         buf = "Failed: No response"
     return buf
+
+def say_out_loud(message):
+        re.sub('[\W_]+', '', message)
+        # this would be a lot easier if speechd wasn't broken
+        command = "SPEAK\r\n"+message+"\r\n.\r\n"
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        try:
+            s.connect(('horsy.noise', 6560))
+        except socket.error:
+            return "Failed: Could not connect"
+        s.send(command)
+        s.settimeout(5)
+        try:
+            buf = s.recv(2048)
+        except socket.timeout:
+            buf = "Failed: No response"
+        return buf
 
 def open_gate():
     gate_message = chat_with_gate("OPEN!")
@@ -61,6 +79,8 @@ def gate_open():
     if 'open' in request.forms and request.forms.open:
         gate_message, success = open_gate()
         changes_to_status = { 'open' : success , 'message' : gate_message }
+        if success:
+            say_out_loud("Gate has been opened")
         if not success:
             raise HTTPError(output = gate_message)
     status.update(changes_to_status)
@@ -92,6 +112,16 @@ def spaceapi():
             , 'status' : 'open for public -- just ring the buzzer'
             , 'lastchange' : time.time() - 1222819200
             }
+
+@api_app.post('/audio/')
+def gate_say():
+    status = {}
+    changes_to_status = {}
+    if 'say' in request.forms:
+        utterance = request.forms.say
+        changes_to_status['message'] = say_out_loud(utterance)
+    status.update(changes_to_status)
+    return status
 
 def main(args):
     if DEBUG:

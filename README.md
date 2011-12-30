@@ -57,6 +57,10 @@ the following additions to the /gate/ stats if successful:
     }
 ```
 
+### POST /audio/
+
+With say=[TEXT] will convert the TEXT into speech, and announce it to the space.
+
 Adding to the API
 -----------------
 
