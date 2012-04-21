@@ -7,6 +7,7 @@ install: apache2-conf api.py
 	mkdir -p $(DESTDIR)/etc/apache2/sites-available
 	install -C --mode=0644 --owner=root --group=root api.py $(DESTDIR)/usr/lib/noisebridge-api
 	install -C --mode=0644 --owner=root --group=root api.wsgi $(DESTDIR)/usr/lib/noisebridge-api
+	install -C --mode=0644 --owner=root --group=root bottle.py $(DESTDIR)/usr/lib/noisebridge-api
 	install -C --mode=0755 --owner=root --group=root apache2-conf $(DESTDIR)/etc/apache2/sites-available/noisebridge-api
 
 clean:

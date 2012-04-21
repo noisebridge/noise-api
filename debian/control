@@ -10,7 +10,7 @@ Vcs-Browser: https://github.com/noisebridge/noise-api
 
 Package: noisebridge-api
 Architecture: any
-Depends: apache2, libapache2-mod-wsgi, python, python-bottle
+Depends: apache2, libapache2-mod-wsgi, python
 Description: A RESTful HTTP API for the Noisebridge Hackersapce.
  A RESTful API implementation for interacting with various parts of the
  Noisebridge Hackerspace in San Francisco, CA.
