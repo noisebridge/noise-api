@@ -21,8 +21,10 @@ case "$1" in
       chown -R www-data:www-data /usr/lib/noisebridge-api
       echo "Enabling the \"noisebridge-api\" apache site"
       /usr/sbin/a2ensite noisebridge-api
-      echo "Ensuring that the \"wsgi\" apache module"
+      echo "Ensuring that the \"wsgi\" apache module is running"
       /usr/sbin/a2enmod wsgi
+      echo "Ensuring that the \"headers\" apache module is running"
+      /usr/sbin/a2enmod headers
       echo "Gracefulling apache."
       echo "NOTE: You may still need to restart apache to load wsgi"
       /usr/sbin/apache2ctl graceful
