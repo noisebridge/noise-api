@@ -57,6 +57,22 @@ def say_out_loud(message):
             buf = "Failed: No response"
         return buf
 
+door_codes_path = "/usr/local/share/baron/codes.txt"
+def load_door_codes():
+    """
+    Loads a list of valid access codes from door code texts list.  Lines
+    starting with '#' are comments.  All other lines must contain numeric codes
+    which grant access, one code per line.
+
+    """
+    new_codes = []
+    for line in open(door_codes_path):
+        code = line.split("#")[0].strip().rstrip()
+        if code.isdigit():
+            new_codes.append(code)
+    return new_codes
+
+
 def open_gate():
     gate_message = chat_with_gate("OPEN!")
     return (gate_message, ('Acknowledged' in gate_message))
@@ -76,6 +92,12 @@ def hello(name='World'):
 def gate_open():
     status = gate_status()
     changes_to_status= {}
+    if 'key' in request.forms and request.forms.key:
+        codes = load_door_codes()
+        if request.forms.key not in codes:
+            status.update({ 'message' : "Key not found"})
+            raise HTTPError(output="Key not found")
+
     if 'open' in request.forms and request.forms.open:
         gate_message, success = open_gate()
         changes_to_status = { 'open' : success , 'message' : gate_message }

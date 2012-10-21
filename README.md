@@ -57,6 +57,12 @@ the following additions to the /gate/ stats if successful:
     }
 ```
 
+With key=XXXX, will optionally check the key against the door code list. 
+
+Note that this isn't a required field. Currently if you omit the key field, the
+door will always open. It's intended to optionally allow other apps to offer
+the same door code authentication that we use for the phone booth entry. 
+
 ### POST /audio/
 
 With say=[TEXT] will convert the TEXT into speech, and announce it to the space.
