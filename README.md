@@ -63,6 +63,46 @@ Note that this isn't a required field. Currently if you omit the key field, the
 door will always open. It's intended to optionally allow other apps to offer
 the same door code authentication that we use for the phone booth entry. 
 
+### POST /gate/key/[doorcode]
+
+With create=True and an existing, valid doorcode, redirects to a URL of the form
+/gate/key/[newdoorcode] which gives a valid new doorcode to open the door.
+
+With preferred=[number] you can suggest a doorcode you'd like to use. It's not
+guaranteed that the preferred option will be returned.
+
+Suppose you have a doorcode 8499146, and you'd like to give a friend a new doorcode. She asks if she can have the number '7895473'
+
+```bash
+curl -v -X POST -d create=True -d preferred=7895473 http://localhost:8080/gate/key/8499146
+```
+
+would return something like this:
+```
+> POST /gate/key/8499146 HTTP/1.1
+> User-Agent: curl/7.26.0
+> Host: localhost:8080
+> Accept: */*
+> Content-Length: 29
+> Content-Type: application/x-www-form-urlencoded
+> 
+* upload completely sent off: 29 out of 29 bytes
+* additional stuff not fine transfer.c:1037: 0 0
+* HTTP 1.0, assume close after body
+< HTTP/1.0 303 See Other
+< Date: Mon, 05 Nov 2012 05:07:29 GMT
+< localhost - - [04/Nov/2012 21:07:29] "POST /gate/key/8499146 HTTP/1.1" 303 0
+Server: WSGIServer/0.1 Python/2.7.3rc2
+< Content-Length: 0
+< Content-Type: text/html; charset=UTF-8
+< Location: http://localhost:8080/gate/key/7895473
+< 
+* Closing connection #0
+```
+
+The Location header contains the new doorcode.
+
+
 ### POST /audio/
 
 With say=[TEXT] will convert the TEXT into speech, and announce it to the space.
@@ -85,22 +125,28 @@ def myfunc()
 Deploying your new API
 ----------------------
 
-You'll need sudo powers on pony. Check out the code using git:
+You'll need sudo powers on minotaur. Check out the code using git:
 
 ```bash
-    git clone /var/local/noise_api/
+    git clone git@github.com:noisebridge/noise-api.git
 ```
 
 Make your changes, and test them locally using 
 
 ```bash
-    python api.py --debug
+   python api.py --debug
 ```
 
-When you're ready to deploy, commit the code, then pull it out to the runningversion of api.py.
+When you're ready to deploy, change the Debian changelog in debian/changelog
+(the [git-dch](http://honk.sigxcpu.org/projects/git-buildpackage/manual-html/gbp.man.git.dch.html)
+program can help with this), and commit the code to the github repository..
+
+Log onto minotaur, clone the git repository, and make a Debian package. Install it using dpkg -i
 
 ```bash
-    cd /var/local/noise_api/
-    sudo git pull [your cloned directory goes here]
-    sudo make install
+   git clone git://github.com/noisebridge/noise-api.git
+   cd noise-api
+   make package
+   sudo dpkg -i ../noisebridge-api_0[whatever the version number is]*.deb
+
 ```

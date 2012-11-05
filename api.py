@@ -15,10 +15,14 @@ __license__ = "GPL v3"
 from bottle import Bottle, run, request
 from bottle import debug
 from bottle import HTTPError
+from bottle import redirect
 
 DEBUG = False
 api_app = Bottle()
 
+import random
+from datetime import datetime
+import fcntl
 import socket
 import time
 import re
@@ -66,12 +70,32 @@ def load_door_codes():
 
     """
     new_codes = []
-    for line in open(door_codes_path):
-        code = line.split("#")[0].strip().rstrip()
-        if code.isdigit():
-            new_codes.append(code)
-    return new_codes
+    with open(door_codes_path, "r") as f:
+        for line in f:
+            code = line.split("#")[0].strip().rstrip()
+            if code.isdigit():
+                new_codes.append(code)
+        return new_codes
 
+class DoorCodeException(HTTPError):
+    pass
+
+def add_door_code(oldcode, newcode = 0):
+    oldcode = str(int(oldcode))
+    if oldcode not in load_door_codes():
+        raise DoorCodeException(403, "Your current doorcode doesn't work, so you cannot create a new doorcode.")
+    if newcode == 0:
+        newcode = random.randint(10000, 10000000)
+    newcode = str(int(newcode))
+    if len(newcode) < 6:
+        raise DoorCodeException(403, "Preferred new doorcode is too short.")
+    if len(newcode) > 50:
+        raise DoorCodeException(403, "Preferred new doorcode is too long.")
+    with open(door_codes_path, "a") as f:
+        fcntl.flock(f, fcntl.LOCK_EX)
+        f.write('%s # from %s, added %s\n' % (newcode, oldcode, datetime.now()))
+        fcntl.flock(f, fcntl.LOCK_UN)
+    return newcode
 
 def open_gate():
     gate_message = chat_with_gate("OPEN!")
@@ -87,6 +111,18 @@ def is_gate_ringing():
 @api_app.route('/hello/:name')
 def hello(name='World'):
     return '<b>Hello %s!</b>' %name
+
+
+@api_app.post('/gate/key/<oldcode:int>')
+def gate_key_create(oldcode=None):
+    if 'create' in request.forms and request.forms.create:
+        if 'preferred' in request.forms and request.forms.preferred:
+            preferred_code = int(request.forms.preferred)
+        else:
+            preferred_code = 0
+        newcode = add_door_code(oldcode, preferred_code)
+        redirect('/gate/key/%s' % (newcode))
+    return {}
 
 @api_app.post('/gate/')
 def gate_open():
