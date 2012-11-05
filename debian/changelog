@@ -1,10 +1,16 @@
-noisebridge-api (0.1-2) unstable; urgency=low
+noisebridge-api (0.1-3) unreleased; urgency=low
+
+  * Added /gate/key doorcode feature.
+
+ -- Danny O'Brien <danny@spesh.com>  Sun,  4 Nov 2012 21:41:05 -0800
+
+noisebridge-api (0.1-2) unreleased; urgency=low
 
   * Added minotaur to permissable gate API users.
 
  -- Danny O'Brien <danny@spesh.com>  Fri, 20 Apr 2012 20:37:05 -0800
 
-noisebridge-api (0.1-1) unstable; urgency=low
+noisebridge-api (0.1-1) unreleased; urgency=low
 
   * Initial packaging.
 
