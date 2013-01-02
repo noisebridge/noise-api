@@ -71,10 +71,12 @@ With create=True and an existing, valid doorcode, redirects to a URL of the form
 With preferred=[number] you can suggest a doorcode you'd like to use. It's not
 guaranteed that the preferred option will be returned.
 
+Requires comment=[contact email address for new number]
+
 Suppose you have a doorcode 8499146, and you'd like to give a friend a new doorcode. She asks if she can have the number '7895473'
 
 ```bash
-curl -v -X POST -d create=True -d preferred=7895473 http://localhost:8080/gate/key/8499146
+curl -v -X POST -d create=True -d preferred=7895473 -d comment="I'm Dara, my email is newperson@example.com" http://localhost:8080/gate/key/8499146
 ```
 
 would return something like this:

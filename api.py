@@ -26,6 +26,8 @@ import fcntl
 import socket
 import time
 import re
+import string
+
 
 def chat_with_gate(message):
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -80,20 +82,23 @@ def load_door_codes():
 class DoorCodeException(HTTPError):
     pass
 
-def add_door_code(oldcode, newcode = 0):
+def add_door_code(oldcode, newcode = 0, comment =""):
     oldcode = str(int(oldcode))
     if oldcode not in load_door_codes():
         raise DoorCodeException(403, "Your current doorcode doesn't work, so you cannot create a new doorcode.")
     if newcode == 0:
         newcode = random.randint(10000, 10000000)
     newcode = str(int(newcode))
+    filtered_comment = ''.join([i for i in comment if i in (string.letters + string.punctuation + ' ')])
+    if (filtered_comment is ""):
+        raise DoorCodeException(403, "Please fill comment field with email or contact details")
     if len(newcode) < 6:
         raise DoorCodeException(403, "Preferred new doorcode is too short.")
     if len(newcode) > 50:
         raise DoorCodeException(403, "Preferred new doorcode is too long.")
     with open(door_codes_path, "a") as f:
         fcntl.flock(f, fcntl.LOCK_EX)
-        f.write('%s # from %s, added %s\n' % (newcode, oldcode, datetime.now()))
+        f.write('%s # from %s, added %s # %s\n' % (newcode, oldcode, datetime.now(), filtered_comment))
         fcntl.flock(f, fcntl.LOCK_UN)
     return newcode
 
@@ -120,7 +125,11 @@ def gate_key_create(oldcode=None):
             preferred_code = int(request.forms.preferred)
         else:
             preferred_code = 0
-        newcode = add_door_code(oldcode, preferred_code)
+        if 'comment' in request.forms and request.forms.comment:
+            comment = str(request.forms.comment)
+        else:
+            comment = ""
+        newcode = add_door_code(oldcode, preferred_code, comment)
         redirect('/gate/key/%s' % (newcode))
     return {}
 
