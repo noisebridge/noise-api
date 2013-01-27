@@ -32,7 +32,8 @@ Returns Noisebridge status, formatted as per http://hackerspaces.nl/spaceapi/
 
 ### GET /gate/
 
-Gets interesting stats about the gate. Currently:
+Gets interesting info about the gate. If you send a "Accept: application/json"
+header, you'll get a status object, which is currently:
 
 ```json
     {
@@ -44,6 +45,10 @@ Where 'ringing' is true if the gate buzzer is ringing at that moment, or in the
 last few seconds, as users may push the button for a very short time. The
 amount of time that this state is cached is totally up to the Gateman daemon
 that runs to interact with the gate hardware.
+
+If you send a "Accept: text/html" header (as web browsers do), it will return
+with some useful gate web forms, including one for opening the door with a
+keycode, and another for getting a new keycode.
 
 ### POST /gate/ 
 

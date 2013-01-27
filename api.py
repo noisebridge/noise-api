@@ -12,13 +12,16 @@ __copyright__ = "Noisebridge"
 __contributors__ = None
 __license__ = "GPL v3"
 
-from bottle import Bottle, run, request
+from bottle import Bottle, run, request, template, TEMPLATE_PATH
 from bottle import debug
 from bottle import HTTPError
 from bottle import redirect
 
-DEBUG = False
+import mimeparse
+
+DEBUG = True
 api_app = Bottle()
+TEMPLATE_PATH.append(".")
 
 import random
 from datetime import datetime
@@ -151,9 +154,16 @@ def gate_open():
     status.update(changes_to_status)
     return status
 
-@api_app.get('/gate/')
+
 def gate_status():
-    return { 'ringing' : is_gate_ringing() }
+        return {'ringing': is_gate_ringing()}
+
+@api_app.get('/gate/')
+def get_gate_status():
+    if (mimeparse.best_match(['application/json','text/html'], request.headers['accept']) == 'application/json'):
+        return {'ringing': is_gate_ringing()}
+    else:
+        return template('gate', {'ringing' : is_gate_ringing() })
 
 @api_app.route("/spaceapi/")
 def spaceapi():
