@@ -1,3 +1,9 @@
+noisebridge-api (0.1-5) unreleased; urgency=low
+
+  * Added web interface for humans at /gate
+
+ -- Danny O'Brien <danny@spesh.com>  Sat, 26 Jan 2013 19:48:39 -0800
+
 noisebridge-api (0.1-4) unreleased; urgency=low
 
   * Added obligatory comment field to doorcode feature
