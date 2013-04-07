@@ -73,6 +73,8 @@ the same door code authentication that we use for the phone booth entry.
 With create=True and an existing, valid doorcode, redirects to a URL of the form
 /gate/key/[newdoorcode] which gives a valid new doorcode to open the door.
 
+_Note: Jake asked me to (temporarily?) disable this, so I have_
+
 With preferred=[number] you can suggest a doorcode you'd like to use. It's not
 guaranteed that the preferred option will be returned.
 
