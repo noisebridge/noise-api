@@ -86,6 +86,7 @@ class DoorCodeException(HTTPError):
     pass
 
 def add_door_code(oldcode, newcode = 0, comment =""):
+    raise DoorCodeException(403, "Jake asked me to disable this.")
     oldcode = str(int(oldcode))
     if oldcode not in load_door_codes():
         raise DoorCodeException(403, "Your current doorcode doesn't work, so you cannot create a new doorcode.")
