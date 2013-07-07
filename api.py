@@ -36,7 +36,7 @@ def chat_with_gate(message):
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     port = 30012
     try:
-        s.connect(('minotaur.noise', port))
+        s.connect(('localhost', port))
     except socket.error:
         return "Failed: Could not connect"
     data = message
